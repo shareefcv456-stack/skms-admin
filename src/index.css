@@ -1,0 +1,42 @@
+@import "tailwindcss" source(".");   /* scan src/ only — never node_modules, whatever the git state */
+
+@theme {
+  --font-sans: 'Glacial Indifference', system-ui, sans-serif;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --color-mint: #F4F8F3;
+  --color-charcoal: #1E231E;
+  --color-olive: #8FA876;
+  --color-forest: #2D4A3E;
+  --color-brand: #22C55E;
+  --color-brand-light: #34D399;
+}
+
+@font-face{font-family:'Glacial Indifference';src:url(/fonts/GlacialIndifference-Regular.woff) format('woff');font-weight:400;font-display:swap}
+@font-face{font-family:'Glacial Indifference';src:url(/fonts/GlacialIndifference-Bold.woff) format('woff');font-weight:700;font-display:swap}
+
+@layer base {
+  button:not(:disabled), [role="button"]:not(:disabled) { cursor: pointer; }
+  *, ::after, ::before, ::backdrop, ::file-selector-button { border-color: var(--color-gray-200, currentColor); }
+  body { @apply bg-mint text-charcoal antialiased; }
+}
+
+@layer components {
+  .eyebrow { @apply text-[11px] font-medium uppercase tracking-[.18em] text-olive; }
+  .a-label { @apply mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-charcoal/55; }
+  .a-input { @apply w-full rounded-xl border border-black/10 bg-white px-3.5 py-2.5 text-[14px] text-charcoal outline-none transition focus:border-brand focus:ring-4 focus:ring-brand/15; }
+  .a-input.is-bad { @apply border-red-400 ring-4 ring-red-400/20; }
+  .a-btn { @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-5 py-2.5 text-[14px] font-semibold transition disabled:cursor-wait disabled:opacity-60; }
+  .a-btn--primary { @apply bg-gradient-to-b from-brand-light to-brand text-charcoal shadow-[0_10px_24px_-10px_rgba(34,197,94,.7)] hover:brightness-105; }
+  .a-btn--ghost { @apply border border-black/10 bg-white text-charcoal hover:border-black/20; }
+  .a-btn--danger { @apply bg-red-600 text-white shadow-[0_10px_24px_-10px_rgba(220,38,38,.6)] hover:bg-red-700; }
+  .a-btn--sm { @apply px-3.5 py-1.5 text-[13px]; }
+  .a-panel { @apply rounded-3xl border border-black/5 bg-white p-5 shadow-[0_20px_50px_-30px_rgba(30,35,30,.25)] sm:p-6; }
+  .a-nav { @apply flex shrink-0 items-center gap-3 rounded-xl px-3.5 py-2.5 text-left text-[14px] text-white/60 transition-colors hover:bg-white/5 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light/60; }
+  .a-nav[aria-current=page] { @apply bg-olive/25 font-medium text-white shadow-[inset_3px_0_0_#34D399]; }
+  .a-nav[aria-current=page] svg { @apply text-brand-light; }
+  .a-drop { @apply flex cursor-pointer flex-wrap items-center gap-4 rounded-2xl border-2 border-dashed border-olive/50 bg-mint p-4 transition hover:border-brand hover:bg-brand/5 focus-within:border-brand focus-within:ring-4 focus-within:ring-brand/15; }
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] .chev { transform: rotate(180deg); }
+  .chev { transition: transform .25s; }
+}

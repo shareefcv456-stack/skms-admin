@@ -1,0 +1,4 @@
+{
+  "headers": [{ "source": "/(.*)", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] }],
+  "rewrites": [{ "source": "/((?!assets/|fonts/).*)", "destination": "/index.html" }]
+}
