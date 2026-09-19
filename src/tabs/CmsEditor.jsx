@@ -1,10 +1,10 @@
-/* One CMS section, edited as a form (an object: hero, announcement, cases) or a list of rows (testimonials, reviews,
+/* One CMS section, edited as a form (an object: hero, cases) or a list of rows (testimonials, reviews,
    faculty, faqs). Loads GET /api/cms/:section (the saved copy or the built-in one), saves with PUT, and
    "Restore defaults" deletes the saved copy so the website falls back to the built-in content. */
 import { useEffect, useState } from 'react';
 import { ChevronDown, Plus, Trash2 } from 'lucide-react';
 import { api, siteUrl } from '../lib/api.js';
-import { Empty, Field, missing, useUi } from '../lib/ui.jsx';
+import { AVATAR, Empty, Field, fallback, missing, useUi } from '../lib/ui.jsx';
 
 export default function CmsEditor({ section, fields, list, blank, rowTitle, addLabel = 'Add item', saveLabel, setDirty, note }) {
   const { toast, ask } = useUi();
@@ -97,7 +97,7 @@ export default function CmsEditor({ section, fields, list, blank, rowTitle, addL
                 className="min-w-0 rounded-2xl border border-black/5 bg-mint/70 transition open:bg-white open:shadow-[0_10px_30px_-18px_rgba(30,35,30,.3)]">
                 <summary className="flex items-center gap-3 px-4 py-3">
                   <ChevronDown className="chev h-4 w-4 shrink-0 text-charcoal/40" />
-                  {'photo' in row && <img src={siteUrl(row.photo)} alt="" className="h-9 w-9 shrink-0 rounded-full bg-mint object-cover" />}
+                  {'photo' in row && <img src={siteUrl(row.photo) || AVATAR} onError={fallback(AVATAR)} alt="" className="h-9 w-9 shrink-0 rounded-full bg-mint object-cover" />}
                   <span className="min-w-0 flex-1 truncate text-[14px] font-medium">{rowTitle(row)}</span>
                   <button type="button" aria-label="Delete" className="rounded-full p-2 text-charcoal/35 transition hover:bg-red-50 hover:text-red-500"
                     onClick={e => { e.preventDefault(); remove(i); }}><Trash2 className="h-4 w-4" /></button>

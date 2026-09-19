@@ -3,6 +3,13 @@ import { createContext, useContext, useRef, useState } from 'react';
 import { ImageUp } from 'lucide-react';
 import { siteUrl } from './api.js';
 
+// placeholders for an empty or broken image preview: a doctor avatar (faculty photos) and a banner (hero)
+const svg = body => 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" ${body}</svg>`);
+export const AVATAR = svg('viewBox="0 0 64 64"><rect width="64" height="64" fill="#E8F5EC"/><g fill="#22C55E" opacity=".5"><circle cx="32" cy="25" r="11"/><path d="M12 56c2-11 10-17 20-17s18 6 20 17z"/></g>');
+export const BANNER = svg('viewBox="0 0 160 100"><rect width="160" height="100" fill="#1E231E"/><g fill="#22C55E" opacity=".5"><path d="M40 72l24-26 18 18 12-12 26 20z"/><circle cx="104" cy="34" r="8"/></g>');
+// onError={fallback(AVATAR)}: swap in the placeholder once, so a broken placeholder can't loop
+export const fallback = img => e => { const t = e.currentTarget; if (t.src !== img) t.src = img; };
+
 const Ui = createContext(null);
 export const useUi = () => useContext(Ui);
 
@@ -90,7 +97,7 @@ export function Field({ spec: [key, label, type = 'text', o = {}], value, onChan
         <p className="a-label">{label}</p>
         <label className={`a-drop${busy ? ' cursor-wait opacity-60' : ''}${bad ? ' !border-red-400' : ''}`}
           onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); pick(e.dataTransfer.files[0]); }}>
-          <img src={siteUrl(value)} alt="" className={`shrink-0 bg-charcoal object-cover ${o.maxWidth ? 'h-16 w-16 rounded-full' : 'h-20 w-32 rounded-xl'}`} />
+          <img src={siteUrl(value) || (o.maxWidth ? AVATAR : BANNER)} onError={fallback(o.maxWidth ? AVATAR : BANNER)} alt="" className={`shrink-0 bg-charcoal object-cover ${o.maxWidth ? 'h-16 w-16 rounded-full' : 'h-20 w-32 rounded-xl'}`} />
           <span className="pointer-events-none min-w-0 flex-1">
             <span className="flex items-center gap-2 text-[14px] font-semibold"><ImageUp className="h-4 w-4 text-brand" />Click to upload or drag an image here</span>
             <span className="mt-1 block text-[12px] text-charcoal/50">JPG, PNG or WebP · resized to {o.maxWidth || 1920}px wide</span>

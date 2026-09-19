@@ -2,15 +2,14 @@
    asks before unsaved edits are thrown away. When the token expires the sign-in comes back over the dashboard,
    so the draft on screen survives — sign in again, then press Save. */
 import { useEffect, useState } from 'react';
-import { BadgeDollarSign, CircleHelp, ExternalLink, GraduationCap, Image, Inbox as InboxIcon, LogOut, Megaphone, Menu, MessageSquareHeart, MessageSquareQuote, Receipt, Sparkles, X } from 'lucide-react';
-import { api, events, session as store } from './lib/api.js';
+import { BadgeDollarSign, CircleHelp, ExternalLink, GraduationCap, Image, Inbox as InboxIcon, LogOut, Menu, MessageSquareHeart, MessageSquareQuote, Receipt, Sparkles, X } from 'lucide-react';
+import { api, events, session as store, SITE_URL as SITE } from './lib/api.js';
 import { useUi } from './lib/ui.jsx';
 import CmsEditor from './tabs/CmsEditor.jsx';
 import Plans from './tabs/Plans.jsx';
 import Inbox from './tabs/Inbox.jsx';
 import Enrollments from './tabs/Enrollments.jsx';
 
-const SITE = (import.meta.env.VITE_SITE_URL || 'http://localhost:5173').replace(/\/+$/, '');
 const stars = r => `${r.name || 'New review'}  ${'★'.repeat(r.rating || 5)}`;
 const review = [['name', 'Name', 'text', { req: true }], ['role', 'Role / country'], ['rating', 'Star rating', 'stars'], ['body', 'Review', 'textarea', { req: true }]];
 
@@ -29,13 +28,6 @@ const TABS = [
       ['cta1Text', 'First button text'], ['cta1Link', 'First button link', 'text', { hint: 'A page such as /courses, or a full https:// link.' }],
       ['cta2Text', 'Second button text'], ['cta2Link', 'Second button link'],
       ['image', 'Banner image', 'image'],
-    ]} />],
-  ['announcement', 'Announcement', 'A thin bar above the header on every page — offers, exam dates, news.', Megaphone,
-    d => <CmsEditor key="announcement" section="announcement" saveLabel="Save Announcement" setDirty={d} fields={[
-      ['enabled', 'Show the announcement bar', 'check'],
-      ['text', 'Message', 'textarea'],
-      ['linkText', 'Link text (optional)', 'text', { hint: 'e.g. View plans' }],
-      ['link', 'Link (optional)', 'text', { hint: 'A page such as /plans#ai, or a full https:// link.' }],
     ]} />],
   ['cases', 'Secondary Banner', 'The “Face Real Cases” section under the hero on the home page.', Sparkles,
     d => <CmsEditor key="cases" section="cases" saveLabel="Save Banner" setDirty={d} fields={[
@@ -188,7 +180,7 @@ function Login({ onSignedIn, again }) {
           <div className="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-brand/25 blur-3xl" />
           <img src="/logo.png" alt="" className="relative h-16 w-16 object-contain" />
           <h2 className="relative mt-10 font-display text-[34px] font-bold leading-tight">Content<br /><em className="text-brand-light">Management</em></h2>
-          <p className="relative mt-4 text-[14px] leading-7 text-white/60">Update prices and plans, approve student reviews, edit the banners and announcement — and track Razorpay enrollments.</p>
+          <p className="relative mt-4 text-[14px] leading-7 text-white/60">Update prices and plans, approve student reviews, edit the banners and faculty — and track Razorpay enrollments.</p>
         </div>
         <form className="p-8 sm:p-12" onSubmit={submit}>
           <img src="/logo.png" alt="" className="h-12 w-12 object-contain md:hidden" />
